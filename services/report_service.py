@@ -23,6 +23,17 @@ class ReportService:
       ('Borrowed',)
     )
     return self.db.cursor.fetchall()
+  def get_most_borrowed_books(self):
+    query="""
+    SELECT b.Title,
+    COUNT(*) AS TimesBorrowed
+    FROM Transactions t
+    INNER JOIN Books b
+    ON t.BookID = b.BookID
+    GROUP BY b.Title
+    ORDER BY TimesBorrowed DESC"""
+    self.db.cursor.execute(query)
+    return self.db.cursor.fetchall()
 
   def get_overdue_books(self):
     query = """

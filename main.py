@@ -20,9 +20,9 @@ def main():
   report_service=ReportService(db)
 
   login_ui=LoginUI(auth_service)
-  user = login_ui.login()
-  menu=Menu(book_service,member_service,circulation_service,report_service)
-  menu.start(user)
+  current_user = login_ui.login()
+  menu=Menu(book_service,member_service,circulation_service,report_service,current_user,auth_service)
+  menu.start()
   db.close()
 
   

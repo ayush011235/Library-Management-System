@@ -1,24 +1,30 @@
 from models.book import Book
 from models.member import Member
+from models.user import User
 from datetime import date
 class Menu:
-  def __init__(self,book_service,member_service,circulation_service,report_service):
+  def __init__(self,book_service,member_service,circulation_service,report_service,current_user,authentication_service):
     self.book_service=book_service
     self.member_service=member_service
     self.circulation_service=circulation_service
     self.report_service=report_service
+    self.current_user=current_user
+    self.authentication_service=authentication_service
   def report_menu(self):
     while True:
       print("\n=============REPORT MENU =============")
       print("1. Currently Borrowed Books")
-      print("2. Overdue Books")
-      print("3. Back")
+      print("2. Most Borrowed Books")
+      print("3. Overdue Books")
+      print("4. Back")
       choice = input("Enter Your choice:")
       if choice == "1":
         self.view_currently_borrowed_books()
       elif choice == '2':
-        self.view_overdue_books()
+        self.view_most_borrowed_books()
       elif choice == '3':
+        self.view_overdue_books()
+      elif choice == '4':
         break
       else:
         print("Invalid Choice")
@@ -39,12 +45,27 @@ class Menu:
     print("11. Borrow Book")
     print("12.Return Book")
     print("13. Reports")
+    print("14. User Management")
     print("0. Exit")
     print("="*40)
+  def user_management(self):
+    while True:
+      print("\n"+"="*40)
+      print("USER MANAGEMENT")
+      print("="*40)
+      print("1. Add User")
+      print("0. Back")
+      choice=input("Enter your choice:")
+      if choice == "1":
+        self.add_user()
+      elif choice == "0":
+        break
+      else:
+        print("Invalid choice.")
 
-  def start(self,current_user):
-    print(f"\nWelcome {current_user.full_name}")
-    print(f"Role:{current_user.role}")
+  def start(self):
+    print(f"\nWelcome {self.current_user.full_name}")
+    print(f"Role:{self.current_user.role}")
     while True:
       self.show_menu()
       choice=input("Enter your choice:")
@@ -74,6 +95,8 @@ class Menu:
         self.return_book()
       elif choice == "13":
         self.report_menu()
+      elif choice == "14":
+        self.user_management()
       elif choice == "0":
         print("\nThank you for using Library Management System.")
         break
@@ -127,6 +150,9 @@ class Menu:
     else:
       print("book not found")
   def delete_book(self):
+    if self.current_user.role != "Admin":
+      print("Access denied. Only Admin can delete books.")
+      return
     print("\n----------Delete Book-----------")
     book_id=int(input("Enter the id of the book You want to delete:"))
     success,message=self.book_service.delete_book(book_id)
@@ -183,6 +209,9 @@ class Menu:
     print(message)
 
   def delete_member(self):
+    if self.current_user.role != "Admin":
+      print("Access denied. Only Admin can delete members.")
+      return
     member_id = int(input("Enter Member ID:"))
     success,message=self.member_service.delete_member(member_id)
     print(message)
@@ -254,6 +283,35 @@ class Menu:
         f"{days:<8}"
         f"Rs{fine}"              
       )
-  
+  def view_most_borrowed_books(self):
+    rows=self.report_service.get_most_borrowed_books()
+    if not rows:
+      print("\nNo transaction history available.")
+      return
+    print("\nMOST BORRWED BOOKS")
+    print("-"*60)
+    print(
+      f"{'Book Title':<40}"
+      f"{'Times Borrowed'}"
+    )
+    print("-"*60)
+    for row in rows:
+      print(
+        f"{row.Title:<40}"
+        f"{row.TimesBorrowed}"
+      )
+  def add_user(self):
+    print("\nAdd New User")
+    username=input("Username:")
+    password=input("Password:")
+    full_name=input("Full Name:")
+    role=input("Role (Admin/Librarian):")
+    user=User(
+      username=username,
+      password_hash=password,
+      full_name=full_name,
+      role=role
+    )
 
-    
+    success,message=self.authentication_service.add_user(user)
+    print(message)

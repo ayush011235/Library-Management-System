@@ -32,3 +32,16 @@ class UserValidator:
     elif not password.strip():
       return False,"Password cannot be empty."
     return True,None
+  @staticmethod
+  def validate_user(user):
+    if not user.username.strip():
+      return False,"Username cannot be empty."
+    if not user.password_hash.strip():
+      return False,"Password cannot be empty."
+    if len(user.password_hash)<6:
+      return False,"Password must be at least 6 characters."
+    if not user.full_name.strip():
+      return False,"Full name cannot be empty."
+    if user.role not in ("Admin","Librarian"):
+      return False,"Invalid role."
+    return True,None
