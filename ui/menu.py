@@ -29,23 +29,28 @@ class Menu:
       else:
         print("Invalid Choice")
   def show_menu(self):
-    print("\n"+"+"*40)
+    print("\n"+"="*40)
     print("     LIBRARY MANAGEMENT SYSTEM")
     print("="*40)
-    print("1. Add Book")
-    print("2. View All Books")
-    print("3. Search Books")
-    print("4. Update Book")
-    print("5. Delete Book")
-    print("6. Add Member")
-    print("7. View Members")
-    print("8. Search Member")
-    print("9. Update Member")
-    print("10. Delete Member")
-    print("11. Borrow Book")
-    print("12.Return Book")
-    print("13. Reports")
-    print("14. User Management")
+    # print("1. Add Book")
+    # print("2. View All Books")
+    # print("3. Search Books")
+    # print("4. Update Book")
+    # print("5. Delete Book")
+    # print("6. Add Member")
+    # print("7. View Members")
+    # print("8. Search Member")
+    # print("9. Update Member")
+    # print("10. Delete Member")
+    # print("11. Borrow Book")
+    # print("12.Return Book")
+    # print("13. Reports")
+    # print("14. User Management")
+    print("1. Book Management")
+    print("2. Member Management")
+    print("3. Transactions")
+    print("4. Reports")
+    print("5. User Management")
     print("0. Exit")
     print("="*40)
   def user_management(self):
@@ -62,6 +67,76 @@ class Menu:
         break
       else:
         print("Invalid choice.")
+  def book_management(self):
+    while True:
+      print("\n"+"="*40)
+      print("BOOK MANAGEMENT")
+      print("="*40)
+      print("1. Add Book")
+      print("2. View All Books")
+      print("3. Search Books")
+      print("4. Update Book")
+      print("5. Delete Book")
+      print("0. Exit")
+      choice = input("Enter your choice:")
+      if choice == "1":
+        self.add_book()
+      elif choice =="2":
+        self.view_books()
+      elif choice == "3":
+        self.search_books()
+      elif choice == "4":
+        self.update_book()
+      elif choice == "5":
+        self.delete_book()
+      elif choice == "0":
+        break
+      else:
+        print("Invalid choice.")
+  def member_management(self):
+    while True:
+      print("\n"+"="*40)
+      print("MEMBER MANAGEMENT")
+      print("="*40)
+      print("1. Add Member")
+      print("2. View All Members")
+      print("3. Search Member")
+      print("4. Update Member")
+      print("5. Delete Member")
+      print("0. Exit")
+      choice = input("Enter your choice:")
+      if choice == "1":
+        self.add_member()
+      elif choice =="2":
+        self.view_members()
+      elif choice == "3":
+        self.search_members()
+      elif choice == "4":
+        self.update_member()
+      elif choice == "5":
+        self.delete_member()
+      elif choice == "0":
+        break
+      else:
+        print("Invalid choice.")
+  def transactions(self):
+    while True:
+      print("\n"+"="*40)
+      print("TRANSACTIONS")
+      print("="*40)
+      print("1. Borrow Book")
+      print("2. Return Book")
+      print("0. Exit")
+      choice = input("Enter your choice:")
+      if choice == "1":
+        self.borrow_book()
+      elif choice == "2":
+        self.return_book()
+      elif choice == "1":
+        break
+      else:
+        print("Invalid choice.")
+
 
   def start(self):
     print(f"\nWelcome {self.current_user.full_name}")
@@ -70,32 +145,38 @@ class Menu:
       self.show_menu()
       choice=input("Enter your choice:")
       if choice == "1":
-        self.add_book()
+        self.book_management()
       elif choice == "2":
-        self.view_books()
+        self.member_management()
       elif choice == "3":
-        self.search_books()
+        self.transactions()
+      # if choice == "1":
+      #   self.add_book()
+      # elif choice == "2":
+      #   self.view_books()
+      # elif choice == "3":
+      #   self.search_books()
+      # elif choice == "4":
+      #   self.update_book()
+      # elif choice == "5":
+      #   self.delete_book()
+      # elif choice == "6":
+      #   self.add_member()
+      # elif choice == "7":
+      #   self.view_members()
+      # elif choice == "8":
+      #   self.search_members()
+      # elif choice == "9":
+      #   self.update_member()
+      # elif choice == "10":
+      #   self.delete_member()
+      # elif choice == "11":
+      #   self.borrow_book()
+      # elif choice == "12":
+      #   self.return_book()
       elif choice == "4":
-        self.update_book()
-      elif choice == "5":
-        self.delete_book()
-      elif choice == "6":
-        self.add_member()
-      elif choice == "7":
-        self.view_members()
-      elif choice == "8":
-        self.search_members()
-      elif choice == "9":
-        self.update_member()
-      elif choice == "10":
-        self.delete_member()
-      elif choice == "11":
-        self.borrow_book()
-      elif choice == "12":
-        self.return_book()
-      elif choice == "13":
         self.report_menu()
-      elif choice == "14":
+      elif choice == "5":
         self.user_management()
       elif choice == "0":
         print("\nThank you for using Library Management System.")
