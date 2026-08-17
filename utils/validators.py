@@ -1,5 +1,4 @@
 class BookValidator:
-  # @staticmethod # we can call it without creating object of BookValidator
   def validate(self,book):
     if not book.title.strip():
       return False,'Book Title cannot be empty'
@@ -11,7 +10,6 @@ class BookValidator:
       return False,'Total copies must be greater than 0'
     else:
       return True,None
-
 class MemberValidator:
   def validate(self,member):
     if not member.name.strip():
@@ -23,7 +21,6 @@ class MemberValidator:
     if not member.address.strip():
       return False,"Address cannot be empty."
     return True,None
-
 class UserValidator:
   @staticmethod
   def validate(username,password):

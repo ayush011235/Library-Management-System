@@ -1,5 +1,4 @@
 from datetime import date
-
 class Member:
   def __init__(self,name,email,phone,address,member_id=None,join_date=None,is_active=True):
     self.member_id=member_id
@@ -9,7 +8,6 @@ class Member:
     self.address=address
     self.join_date= join_date if join_date else date.today()
     self.is_active=is_active
-
   def __str__(self):
     return (
           f"\nMember ID       : {self.member_id}"

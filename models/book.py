@@ -7,7 +7,6 @@ class Book:
     self.isbn=isbn
     self.total_copies=total_copies
     self.available_copies=total_copies
-
   def __str__(self):
     return (
       f"\nBook ID          : {self.book_id}"

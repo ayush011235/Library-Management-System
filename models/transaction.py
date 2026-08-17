@@ -1,5 +1,4 @@
 from datetime import date,timedelta
-
 class Transaction:
   def __init__(self,book_id,member_id,transaction_id=None):
     self.transaction_id = transaction_id
@@ -9,7 +8,6 @@ class Transaction:
     self.due_date=self.borrow_date+timedelta(days=14)
     self.return_date = None
     self.status="Borrowed"
-
   def __str__(self):
     return (
       f"Transaction ID                : {self.transaction_id}\n"

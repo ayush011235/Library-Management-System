@@ -34,7 +34,6 @@ class ReportService:
     ORDER BY TimesBorrowed DESC"""
     self.db.cursor.execute(query)
     return self.db.cursor.fetchall()
-
   def get_overdue_books(self):
     query = """
     SELECT
@@ -52,7 +51,6 @@ class ReportService:
     WHERE t.Status = ?
     AND t.DueDate < ?
     ORDER BY t.DueDate;"""
-
     self.db.cursor.execute(
       query,
       (

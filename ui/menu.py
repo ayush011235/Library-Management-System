@@ -32,20 +32,6 @@ class Menu:
     print("\n"+"="*40)
     print("     LIBRARY MANAGEMENT SYSTEM")
     print("="*40)
-    # print("1. Add Book")
-    # print("2. View All Books")
-    # print("3. Search Books")
-    # print("4. Update Book")
-    # print("5. Delete Book")
-    # print("6. Add Member")
-    # print("7. View Members")
-    # print("8. Search Member")
-    # print("9. Update Member")
-    # print("10. Delete Member")
-    # print("11. Borrow Book")
-    # print("12.Return Book")
-    # print("13. Reports")
-    # print("14. User Management")
     print("1. Book Management")
     print("2. Member Management")
     print("3. Transactions")
@@ -136,8 +122,6 @@ class Menu:
         break
       else:
         print("Invalid choice.")
-
-
   def start(self):
     print(f"\nWelcome {self.current_user.full_name}")
     print(f"Role:{self.current_user.role}")
@@ -150,30 +134,6 @@ class Menu:
         self.member_management()
       elif choice == "3":
         self.transactions()
-      # if choice == "1":
-      #   self.add_book()
-      # elif choice == "2":
-      #   self.view_books()
-      # elif choice == "3":
-      #   self.search_books()
-      # elif choice == "4":
-      #   self.update_book()
-      # elif choice == "5":
-      #   self.delete_book()
-      # elif choice == "6":
-      #   self.add_member()
-      # elif choice == "7":
-      #   self.view_members()
-      # elif choice == "8":
-      #   self.search_members()
-      # elif choice == "9":
-      #   self.update_member()
-      # elif choice == "10":
-      #   self.delete_member()
-      # elif choice == "11":
-      #   self.borrow_book()
-      # elif choice == "12":
-      #   self.return_book()
       elif choice == "4":
         self.report_menu()
       elif choice == "5":
@@ -190,7 +150,6 @@ class Menu:
     category=input("Enter Category:")
     isbn=input("Enter ISBN:")
     total=int(input("Enter Total Copies:"))
-  
     book=Book(title,author,category,isbn,total)
     success,message=self.book_service.add_book(book)
     print(message)
@@ -220,7 +179,6 @@ class Menu:
     if book:
       print("Current Book")
       print(book)
-  
       book.title=input("New Title:")
       book.author=input("New Author:")
       book.category=input("New Category:")
@@ -238,14 +196,12 @@ class Menu:
     book_id=int(input("Enter the id of the book You want to delete:"))
     success,message=self.book_service.delete_book(book_id)
     print(message)
-
   def add_member(self):
     print("\n-----------Add New Member------------")
     name = input("Enter Name: ")
     email = input("Enter Emial: ")
     phone = input("Enter Phone: ")
     address= input("Enter Address: ")
-
     member = Member(
       name,
       email,
@@ -254,11 +210,9 @@ class Menu:
     )
     success,message=self.member_service.add_member(member)
     print(message)
-
   def view_members(self):
     print("\n----------All Members------------")
     members=self.member_service.get_all_members()
-
     if not members:
       print("No members found.")
       return
@@ -274,7 +228,6 @@ class Menu:
     for member in members:
       print(member)
       print("-"*50)
-
   def update_member(self):
     member_id = int(input("Enter Member ID:"))
     member = self.member_service.get_member_by_id(member_id)
@@ -285,10 +238,8 @@ class Menu:
     member.email = input(f"Email ({member.email}):") or member.email
     member.phone = input(f"Phone ({member.phone}):") or member.phone
     member.address = input(f"Address ({member.address}):") or member.address
-
     success,message=self.member_service.update_member(member)
     print(message)
-
   def delete_member(self):
     if self.current_user.role != "Admin":
       print("Access denied. Only Admin can delete members.")
@@ -296,16 +247,12 @@ class Menu:
     member_id = int(input("Enter Member ID:"))
     success,message=self.member_service.delete_member(member_id)
     print(message)
-    
-    # db.close()
-
   def borrow_book(self):
     try:
       book_id = int(input("Enter Book ID:"))
       member_id = int(input("Enter Member ID:"))
       success,message=self.circulation_service.borrow_book(book_id,member_id)
       print(message)
-
     except ValueError:
       print("Please Enter valid numeric IDs.")
   def return_book(self):
@@ -316,10 +263,8 @@ class Menu:
       print(message)
     except ValueError:
       print("Please enter valid numeric IDs.")
-
   def view_currently_borrowed_books(self):
     rows=self.report_service.get_currently_borrowed_books()
-
     if not rows:
       print("\nNo books are currently borrowed.")
       return
@@ -327,7 +272,6 @@ class Menu:
     print("-"*90)
     print(f"{'Txn ID':<8}{'Book':<30}{'Member':<20}{'Borrowe Date':<15}{'Due Date'}")
     print("-"*90)
-
     for row in rows:
       print(
         f"{row.TransactionID:<8}"
@@ -393,6 +337,5 @@ class Menu:
       full_name=full_name,
       role=role
     )
-
     success,message=self.authentication_service.add_user(user)
     print(message)

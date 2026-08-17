@@ -1,7 +1,5 @@
 import pyodbc
 from models.book import Book
-# from models.member import Member
-
 class BookService:
   def __init__(self,db,validator):
     self.db=db
@@ -34,7 +32,6 @@ class BookService:
         book.available_copies
         )
       )
-
       self.db.commit()
       return True,"Book Added Successfully."
     except pyodbc.Error as e:
@@ -69,10 +66,8 @@ class BookService:
     )
     rows=self.db.cursor.fetchall()
     return self._rows_to_books(rows)
-  
   def update_book(self,updated_book):
     existing_book=self.get_book_by_id(updated_book.book_id)
-
     if existing_book is None:
       return False,"Book not found."
     is_valid,message=self.validator.validate(updated_book)
@@ -105,7 +100,6 @@ class BookService:
         )
       )
       self.db.commit()
-
       return True,"Book Updated Successfully."
     except pyodbc.Error as e:
       self.db.rollback()

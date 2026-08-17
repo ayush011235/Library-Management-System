@@ -5,7 +5,6 @@ class DatabaseConnection:
     self.connection=None
     self.cursor=None
     self.connect()
-
   def connect(self):
     try:
       self.connection=pyodbc.connect(
@@ -27,5 +26,4 @@ class DatabaseConnection:
       self.cursor.close()
     if self.connection:
       self.connection.close()
-
     print("Database Connection closed")

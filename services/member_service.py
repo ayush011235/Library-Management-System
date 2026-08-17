@@ -6,7 +6,6 @@ class MemberService:
     self.validator=validator
   def add_member(self,member):
     is_valid,message=self.validator.validate(member)
-
     if not is_valid:
       return False,message
     try:
@@ -30,7 +29,6 @@ class MemberService:
          member.is_active
         )
       )
-
       self.db.commit()
       return True,"Member Added Successfully."
     except pyodbc.Error as e:
@@ -41,14 +39,12 @@ class MemberService:
     for row in rows:
       members.append(Member.from_db_row(row))
     return members
-
   def get_all_members(self):
     query="""
     SELECT * FROM Members"""
     self.db.cursor.execute(query)
     rows=self.db.cursor.fetchall()
     return self._rows_to_members(rows)
-
   def get_member_by_id(self,member_id):
     query="""
     SELECT * FROM Members WHERE MemberID = ?"""
@@ -57,7 +53,6 @@ class MemberService:
     if row is None:
       return None
     return Member.from_db_row(row)
-
   def search_members(self,keyword):
     keyword = f"%{keyword}%"
     query="""
@@ -82,7 +77,6 @@ class MemberService:
     is_valid,message=self.validator.validate(member)
     if not is_valid:
       return False,message
-
     try:
       query = """
       UPDATE Members
@@ -92,7 +86,6 @@ class MemberService:
       Phone = ?,
       Address = ?
       WHERE MemberID = ?"""
-
       self.db.cursor.execute(
         query,
         (
@@ -104,7 +97,6 @@ class MemberService:
         )
       )
       self.db.commit()
-
       return True,"Member updated successfully."
     except pyodbc.Error as e:
       self.db.rollback()
@@ -115,7 +107,6 @@ class MemberService:
       return False, "Member is not found."
     if not member.is_active:
       return False,"Member is already inactive."
-
     try:
       query="""
       UPDATE Members
@@ -124,7 +115,6 @@ class MemberService:
       """
       self.db.cursor.execute(query,(member_id,))
       self.db.commit()
-
       return True,"Member deactivated successfully."
     except Exception as e:
       self.db.rollback()

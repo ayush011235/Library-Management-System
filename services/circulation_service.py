@@ -17,35 +17,27 @@ class CirculationService:
       )
     )
     row = self.db.cursor.fetchone()
-
     if row is None:
       return None
     return Transaction.from_db_row(row)
-
   def borrow_book(self,book_id,member_id):
     book=self.book_service.get_book_by_id(book_id)
     if book is None:
       return False,"Book not found."
-
     member = self.member_service.get_member_by_id(member_id)
     if member is None:
       return False,"Member not found."
-
     if not member.is_active:
       return False,"Member is inactive."
-
     if book.available_copies <= 0:
       return False, "No copies available."
-
     transaction=Transaction(book_id,member_id)
-
     try:
       book.available_copies -= 1
       update_query = """
       UPDATE Books
       SET AvailableCopies = ?
       WHERE BookID = ?"""
-
       self.db.cursor.execute(
         update_query,
         (
@@ -77,18 +69,15 @@ class CirculationService:
         )
       )
       self.db.commit()
-
       return True, "Book borrowed successfully"
     except Exception as e:
       self.db.rollback()
       return False,str(e)
-
   def return_book(self,book_id,member_id):
     transaction = self._get_active_transaction(book_id,member_id)
     if transaction is None:
       return False,"This member has not borrowed this book."
     book = self.book_service.get_book_by_id(book_id)
-
     if book is None:
       return False,"Book not found."
     try:
@@ -120,7 +109,6 @@ class CirculationService:
           transaction.transaction_id
         )
       )
-
       self.db.commit()
       return True, "Book returned successfully."
     except Exception as e:

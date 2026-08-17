@@ -6,7 +6,6 @@ class User:
     self.full_name=full_name
     self.role = role
     self.is_active=is_active
-
   @classmethod
   def from_db_record(cls,row):
     return cls(

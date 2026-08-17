@@ -1,12 +1,10 @@
 from models.user import User
 import bcrypt
 from utils.validators import UserValidator
-
 class AuthenticationService:
   def __init__(self,db):
     self.db = db 
     self.validator = UserValidator()
-
   def login(self,username,password):
     is_valid,message=self.validator.validate(username,password)
     if not is_valid:
@@ -41,7 +39,6 @@ class AuthenticationService:
       user.password_hash.encode(),
       bcrypt.gensalt()
     ).decode()
-
     query="""
     INSERT INTO Users
     (
