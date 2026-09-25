@@ -36,10 +36,14 @@ class Menu:
     print("2. Member Management")
     print("3. Transactions")
     print("4. Reports")
-    print("5. User Management")
+    if self.current_user.role == "Admin":
+      print("5. User Management")
     print("0. Exit")
     print("="*40)
   def user_management(self):
+    if self.current_user.role != "Admin":
+      print("Access denied. Only Admin can access User Management.")
+      return
     while True:
       print("\n"+"="*40)
       print("USER MANAGEMENT")
@@ -173,6 +177,9 @@ class Menu:
       print(book)
       print('-'*40)
   def update_book(self):
+    if self.current_user.role != "Admin":
+      print("Access denied. Only Admin can update books.")
+      return
     print("\n---------Update Book----------")
     book_id=int(input("Enter the id of the book you want to update:"))
     book=self.book_service.get_book_by_id(book_id)
@@ -229,6 +236,9 @@ class Menu:
       print(member)
       print("-"*50)
   def update_member(self):
+    if self.current_user.role != "Admin":
+      print("Access denied. Only Admin can update member.")
+      return
     member_id = int(input("Enter Member ID:"))
     member = self.member_service.get_member_by_id(member_id)
     if member is None:

@@ -64,3 +64,26 @@ class AuthenticationService:
     )
     self.db.connection.commit()
     return True,"User added successfully."
+  def has_users(self):
+    query = "SELECT COUNT(*) FROM Users"
+    self.db.cursor.execute(query)
+    count = self.db.cursor.fetchone()[0]
+    return count > 0
+  def create_first_admin(self):
+    print("\n"+"="*40)
+    print("FIRST-TIME SETUP ")
+    print("=" * 40)
+    print("No users exist in the system.")
+    print("Let's create the first Admin account.\n")
+    username = input("Admin Username: ")
+    password = input("Admin Password: ")
+    full_name = input("Full Name: ")
+    user = User(
+      username=username,
+      password_hash=password,
+      full_name=full_name,
+      role="Admin"
+    )
+    success, message=self.add_user(user)
+    print(message)
+    return success
