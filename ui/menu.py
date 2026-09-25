@@ -122,7 +122,7 @@ class Menu:
         self.borrow_book()
       elif choice == "2":
         self.return_book()
-      elif choice == "1":
+      elif choice == "0":
         break
       else:
         print("Invalid choice.")
